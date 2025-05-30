@@ -1,5 +1,6 @@
 #![allow(unused)]
 
+#[derive(PartialEq)]
 enum Scale {
     Celsius,
     Fahrenheit,
@@ -19,11 +20,17 @@ impl Temperature {
     }
 
     fn to_celsius(&self) -> f32 {
-        todo!();
+        if (self.scale == Scale::Fahrenheit) {
+            return (self.degrees - 32.0) * 5.0 / 9.0;
+        }
+        self.degrees
     }
 
     fn to_fahrenheit(&self) -> f32 {
-        todo!();
+        if (self.scale == Scale::Celsius) {
+            return self.degrees * 9.0 / 5.0 + 32.0;
+        }
+        self.degrees
     }
 }
 
@@ -31,7 +38,11 @@ fn main() {
     let temp = Temperature::new(20.0);
 
     println!("fun fact: 20°C is an integer in celsius and fahrenheit");
-    println!("          {:.1}°C = {:.1}°F", temp.to_celsius(), temp.to_fahrenheit());
+    println!(
+        "          {:.1}°C = {:.1}°F",
+        temp.to_celsius(),
+        temp.to_fahrenheit()
+    );
 }
 
 #[test]
@@ -58,4 +69,3 @@ fn freezing() {
     assert!(freezing.to_celsius() < 0.001);
     assert!(freezing.to_celsius() > -0.01);
 }
-
